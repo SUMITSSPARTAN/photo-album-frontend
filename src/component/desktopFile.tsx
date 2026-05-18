@@ -5,6 +5,11 @@ import myAlbums from '../assets/My_Albums.png'
 import trash from '../assets/trash.png'
 import Logo from './logo'
 
+type DesktopFileProps = {
+    newTab: (id: string, active: boolean, heading: string) => void
+    tabs: Array<{ id: string; heading: string }>
+}
+
 
 const desktopFileStyle: CSSProperties = {
     display: 'inline-flex',
@@ -13,7 +18,7 @@ const desktopFileStyle: CSSProperties = {
     gap: '1rem'
 }
 
-export default function DesktopFile({ toggleTab }: { toggleTab: (value: boolean) => void }) {
+export default function DesktopFile({ newTab, tabs }: DesktopFileProps) {
     const files = [
         { id: 'all-images', name: 'All Images', image: allImages },
         { id: 'favourites', name: 'Favourites', image: favourite },
@@ -25,7 +30,9 @@ export default function DesktopFile({ toggleTab }: { toggleTab: (value: boolean)
     return (
         <div className="desktop-file" style={desktopFileStyle}>
             {files.map(file => {
-                return <Logo key={file.name} image={file.image} name={file.name} toggleTab={toggleTab} />
+                // {console.log("key",file.id)}
+                const isOpen = tabs.some((tab) => tab.id === file.id)
+                return <Logo key={file.id} id={file.id} image={file.image} name={file.name} isOpen={isOpen} newTab={newTab} />
             })}
         </div>
     )

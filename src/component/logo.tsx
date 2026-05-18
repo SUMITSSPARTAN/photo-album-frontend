@@ -1,8 +1,10 @@
 import type { CSSProperties } from 'react'
 
 type LogoProps = {
+    id: string
     image: string
     name: string
+    isOpen: boolean
 }
 
 const logoStyle: CSSProperties = {
@@ -27,9 +29,9 @@ const logoImageStyle: CSSProperties = {
     alignContent: 'center',
 }
 
-export default function Logo({ image, name, toggleTab }: LogoProps & { toggleTab: (value: boolean) => void }) {
+export default function Logo({id, image, name, isOpen, newTab }: LogoProps & { newTab:(id: string,active:boolean, heading:string)=> void }) {
     return (
-        <div style={logoStyle} onClick={() => { toggleTab(true) }}>
+        <div style={logoStyle} onClick={() => { newTab(id, !isOpen, name)}}>
             <img src={image} alt={`${name} logo`} style={logoImageStyle} />
             <span style={textStyle}>{name}</span>
         </div>
