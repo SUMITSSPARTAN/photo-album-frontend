@@ -1,4 +1,5 @@
 import { useState, useRef, type CSSProperties } from 'react'
+import PhotoGrid from './photoGrid';
 function Css(position: { x: number; y: number }, dimensions: { width: string; height: string }): { TabCss: CSSProperties; tabHeader: CSSProperties; tabControl: CSSProperties; tabButton: CSSProperties; tabHeading: CSSProperties } {
     return {
         TabCss: {
@@ -19,7 +20,7 @@ function Css(position: { x: number; y: number }, dimensions: { width: string; he
         },
         tabHeader: {
             display: 'flex',
-            height: '25px',
+            height: '30px',
             width: '100%',
             borderTopLeftRadius: '8px',
             borderTopRightRadius: '8px',
@@ -113,6 +114,7 @@ export default function Tab({ heading, id, newTab }: { heading: string; id: stri
                 </div>
             </div>
             <div><h1>Tab</h1></div>
+            <PhotoGrid totalItems={[{},{},{},{},{},{},{},{}]}/>
         </div >
     )
 }
