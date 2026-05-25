@@ -14,6 +14,8 @@ const logoStyle: CSSProperties = {
     justifyContent: 'center',
     alignItems: 'center',
     gap: '0.1rem',
+    minWidth: '100px',
+    minHeight: '100px',
 }
 
 const textStyle: CSSProperties = {
@@ -21,17 +23,17 @@ const textStyle: CSSProperties = {
     fontWeight: 'bold',
     color: '#674805dd',
     fontFamily: 'Arial, sans-serif',
-    height: '2rem',
 }
 
 const logoImageStyle: CSSProperties = {
     height: '150px',
     alignContent: 'center',
+    flexShrink: '0',
 }
 
-export default function Logo({id, image, name, isOpen, newTab }: LogoProps & { newTab:(id: string,active:boolean, heading:string)=> void }) {
+export default function Logo({ id, image, name, isOpen, newTab }: LogoProps & { newTab: (id: string, active: boolean, heading: string) => void }) {
     return (
-        <div style={logoStyle} onClick={() => { newTab(id, !isOpen, name)}}>
+        <div style={logoStyle} onClick={() => { newTab(id, !isOpen, name) }}>
             <img src={image} alt={`${name} logo`} style={logoImageStyle} />
             <span style={textStyle}>{name}</span>
         </div>

@@ -12,10 +12,12 @@ type DesktopFileProps = {
 
 
 const desktopFileStyle: CSSProperties = {
-    display: 'inline-flex',
+    display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'start',
-    gap: '1rem'
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    alignContent: 'flex-start',
+    gap: '2rem'
 }
 
 export default function DesktopFile({ newTab, tabs }: DesktopFileProps) {
@@ -30,7 +32,6 @@ export default function DesktopFile({ newTab, tabs }: DesktopFileProps) {
     return (
         <div className="desktop-file" style={desktopFileStyle}>
             {files.map(file => {
-                // {console.log("key",file.id)}
                 const isOpen = tabs.some((tab) => tab.id === file.id)
                 return <Logo key={file.id} id={file.id} image={file.image} name={file.name} isOpen={isOpen} newTab={newTab} />
             })}

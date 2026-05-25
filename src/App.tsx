@@ -1,43 +1,32 @@
-import bg from './assets/background.png'
-import bg2 from './assets/Adobe Express - file.png'
-import DesktopFile from './component/desktopFile'
-import Tab from './component/tab'
-
 import './App.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import DesktopPage from './pages/DesktopPage'
+import LoginPage from './pages/LoginPage'
+import { getInitialRoute, getRouteFromPath, routes, type AppRoute } from './routes/routes'
+import { authService } from './services/authService'
 
 function App() {
-  type AppTab = {
-    id: string;
-    heading: string;
+  const [route, setRoute] = useState<AppRoute>(() => getInitialRoute(authService.isAuthenticated()));
+
+  const navigate = (nextRoute: AppRoute) => {
+    window.history.pushState(null, "", nextRoute);
+    setRoute(nextRoute);
   };
 
-  const [tabs, setTabs] = useState<AppTab[]>([]);
+  useEffect(() => {
+    const syncRoute = () => {
+      setRoute(getRouteFromPath(window.location.pathname, authService.isAuthenticated()));
+    };
 
-  const newTab = (id: string, active: boolean, heading: string) => {
-    setTabs((prevTabs) => {
-      const existingTab = prevTabs.find((tab) => tab.id === id);
-      if (active) {
-        if (existingTab) {
-          return prevTabs.map((tab) => (tab.id === id ? { id, heading } : tab));
-        }
-        return [...prevTabs, { id, heading }];
-      }
-      return prevTabs.filter((tab) => tab.id !== id);
-    });
-  };
+    window.addEventListener("popstate", syncRoute);
+    return () => window.removeEventListener("popstate", syncRoute);
+  }, []);
 
-  return (
-    <>
-      <div className="ticks" style={{ backgroundImage: `url(${bg2}), url(${bg})`, backgroundSize: 'cover', backgroundPosition:'center', height: '100%', width: '100%', position: 'fixed' }}>
-        <DesktopFile newTab={newTab} tabs={tabs} />
-        {tabs.map((tab) => (
-          <Tab key={tab.id} heading={tab.heading} id={tab.id} newTab={newTab} />
-        ))}
-      </div>
-    </>
+  if (route === routes.login) {
+    return <LoginPage onLogin={() => navigate(routes.desktop)} />;
+  }
 
-  )
+  return <DesktopPage onLogout={() => navigate(routes.login)} />;
 }
 
 export default App

@@ -82,11 +82,13 @@ function Css(
 export default function Tab({
     heading,
     id,
-    newTab
+    newTab,
+    onUnauthorized,
 }: {
     heading: string;
     id: string;
-    newTab: (id: string, active: boolean, heading: string) => void
+    newTab: (id: string, active: boolean, heading: string) => void;
+    onUnauthorized: () => void;
 }) {
 
     const componentRef = useRef<HTMLDivElement | null>(null);
@@ -304,7 +306,7 @@ export default function Tab({
                 <h1>Tab</h1>
             </div>
 
-            <PhotoGrid totalItems={[{}, {}, {}, {}, {}, {}, {}, {}]} />
+            <PhotoGrid totalItems={[{}, {}, {}, {}, {}, {}, {}, {}]} gridType={id} onUnauthorized={onUnauthorized} />
 
             {/* RIGHT */}
             {resizeHandle('right', {
